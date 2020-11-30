@@ -4,12 +4,15 @@ import (
 	"net/http"
 
 	"github.com/beltranbot/bookstore_oauth-api/domain/accesstoken"
+	"github.com/beltranbot/bookstore_oauth-api/utils/errors"
 	"github.com/gin-gonic/gin"
 )
 
 // AccessTokenHandler interface
 type AccessTokenHandler interface {
 	GetByID(*gin.Context)
+	Create(*gin.Context)
+	// UpdateExpirationTime(*gin.Context)
 }
 
 type accessTokenHandler struct {
@@ -30,4 +33,19 @@ func (handler *accessTokenHandler) GetByID(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, accessToken)
+}
+
+func (handler *accessTokenHandler) Create(c *gin.Context) {
+	var at accesstoken.AccessToken
+	if bindingErr := c.ShouldBindJSON(&at); bindingErr != nil {
+		restErr := errors.NewBadRequestError("invalid json body")
+		c.JSON(restErr.Status, restErr)
+		return
+	}
+	if createErr := handler.service.Create(at); createErr != nil {
+		c.JSON(createErr.Status, createErr)
+		return
+	}
+	c.JSON(http.StatusCreated, at)
+
 }
