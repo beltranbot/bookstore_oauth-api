@@ -14,11 +14,8 @@ var (
 
 // StartApplication func
 func StartApplication() {
-	session, dbErr := cassandra.GetSession()
-	if dbErr != nil {
-		panic(dbErr)
-	}
-	session.Close()
+	session := cassandra.GetSession()
+	defer session.Close()
 
 	accessTokenHandler := http.NewHandler(accesstoken.NewService(db.NewRepository()))
 
