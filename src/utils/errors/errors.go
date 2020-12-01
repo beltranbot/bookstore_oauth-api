@@ -1,6 +1,7 @@
 package errors
 
 import (
+	"encoding/json"
 	"errors"
 	"net/http"
 )
@@ -42,4 +43,13 @@ func NewInternalServerError(message string) *RestErr {
 		Status:  http.StatusInternalServerError,
 		Error:   "internal_server_error",
 	}
+}
+
+// NewRestErrorFromBytes func
+func NewRestErrorFromBytes(bytes []byte) (*RestErr, error) {
+	var apiErr RestErr
+	if err := json.Unmarshal(bytes, &apiErr); err != nil {
+		return nil, errors.New("invalid json")
+	}
+	return &apiErr, nil
 }
