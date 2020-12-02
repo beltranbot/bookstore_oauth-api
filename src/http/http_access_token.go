@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	atDomain "github.com/beltranbot/bookstore_oauth-api/domain/accesstoken"
-	service "github.com/beltranbot/bookstore_oauth-api/services/accesstoken"
+	services "github.com/beltranbot/bookstore_oauth-api/services/accesstoken"
 	"github.com/beltranbot/bookstore_oauth-api/utils/errors"
 	"github.com/gin-gonic/gin"
 )
@@ -17,11 +17,11 @@ type AccessTokenHandler interface {
 }
 
 type accessTokenHandler struct {
-	service service.Service
+	service services.Service
 }
 
 // NewHandler func
-func NewHandler(service service.Service) AccessTokenHandler {
+func NewHandler(service services.Service) AccessTokenHandler {
 	return &accessTokenHandler{
 		service: service,
 	}

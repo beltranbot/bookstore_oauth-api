@@ -5,7 +5,7 @@ import (
 	"github.com/beltranbot/bookstore_oauth-api/http"
 	"github.com/beltranbot/bookstore_oauth-api/repository/db"
 	"github.com/beltranbot/bookstore_oauth-api/repository/rest"
-	"github.com/beltranbot/bookstore_oauth-api/services"
+	services "github.com/beltranbot/bookstore_oauth-api/services/accesstoken"
 	"github.com/gin-gonic/gin"
 )
 
